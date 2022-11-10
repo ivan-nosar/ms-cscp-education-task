@@ -6,6 +6,6 @@ public static class HealthCheckService
 {
     public static HealthcheckStatus GetStatus()
     {
-        return new HealthcheckStatus { status = false };
+        return new HealthcheckStatus { status = true };
     }
 }

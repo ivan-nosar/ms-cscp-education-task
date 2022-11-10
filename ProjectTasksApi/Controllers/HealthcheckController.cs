@@ -14,7 +14,6 @@ public class HealthcheckController : ControllerBase {
     public HealthcheckController(ILogger<HealthcheckController> logger)
     {
         _logger = logger;
-        var a = 1 + 1;
     }
 
     [HttpGet]
