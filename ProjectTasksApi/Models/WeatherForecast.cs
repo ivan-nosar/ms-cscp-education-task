@@ -1,4 +1,4 @@
-namespace backend;
+namespace ProjectTasksApi.Models;
 
 public class WeatherForecast
 {

@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+namespace ProjectTasksApi;
 
-namespace backend.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using ProjectTasksApi.Models;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
