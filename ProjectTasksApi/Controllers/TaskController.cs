@@ -1,71 +1,104 @@
-﻿namespace TaskTasksApi.Controllers; 
+﻿namespace ProjectTasksApi.Controllers; 
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ProjectTasksApi.Models;
-using ProjectTasksApi.Servcies;
+using ProjectTasksApi.Interfaces;
+using ProjectTasksApi.Models.Dto;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class TaskController : ControllerBase
 {
+    private readonly ITaskService service;
     private readonly ILogger<TaskController> logger;
+    private readonly IMapper mapper;
 
-    public TaskController(ILogger<TaskController> logger)
+    public TaskController(
+        ITaskService service,
+        ILogger<TaskController> logger,
+        IMapper mapper
+    )
     {
+        this.service = service;
         this.logger = logger;
+        this.mapper = mapper;
     }
 
     [HttpGet]
-    public IEnumerable<Task> Get() => TaskService.GetAll();
+    public async Task<IEnumerable<TaskOutputDto>> GetAll()
+    {
+        var tasks = await service.GetAll();
+        return tasks.Select(project => mapper.Map<TaskOutputDto>(project));
+    }
 
     [HttpGet("{id}")]
-    public ActionResult<Task> Get(int id)
+    public async Task<ActionResult<TaskOutputDto>> Get(int id)
     {
-        Task? task = TaskService.Get(id);
+        var task = await service.Get(id);
 
-        if (task== null)
+        if (task == null)
         {
             logger.LogInformation($"Unable to find task #{id}");
             return NotFound();
         }
 
-        return task;
+        return mapper.Map<TaskOutputDto>(task);
     }
 
     [HttpPost]
-    public ActionResult<Task> Post([FromBody] Task task)
+    public async Task<ActionResult<TaskOutputDto>> Post([FromBody] TaskInputDto task)
     {
-        TaskService.Add(task);
-        return CreatedAtAction(nameof(Post), new { id = task.Id }, task);
-    }
-
-    [HttpPut("{id}")]
-    public ActionResult<Task> Put(int id, [FromBody] Task task)
-    {
-        if (id != task.Id)
+        if (!ModelState.IsValid)
         {
-            logger.LogInformation($"Task's id mismatch: ${id} (from URI) doesn't match ${task.Id} (from body)");
+            logger.LogInformation($"Task model validation failed");
+            return BadRequest(ModelState);
+        }
+
+        var newEntity = await service.Add(task);
+        if (newEntity == null)
+        {
+            logger.LogInformation($"Unable to create task with name {task.Name}");
             return BadRequest();
         }
 
-        bool updateResult = TaskService.Update(id, task);
-        if (!updateResult)
+        return CreatedAtAction(
+            nameof(Post),
+            new { id = newEntity.ID },
+            mapper.Map<TaskOutputDto>(newEntity)
+        );
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<TaskOutputDto>> Put(int id, [FromBody] TaskInputDto task)
+    {
+        if (!ModelState.IsValid)
         {
-            logger.LogInformation($"Unable to find task #{id}");
-            return NotFound();
+            logger.LogInformation($"Task model validation failed");
+            return BadRequest(ModelState);
         }
 
-        return CreatedAtAction(nameof(Put), new { id = task.Id }, task);
+        var updatedEntity = await service.Update(id, task);
+        if (updatedEntity == null)
+        {
+            logger.LogInformation($"Unable to update task #{id}");
+            return BadRequest();
+        }
+
+        return CreatedAtAction(
+            nameof(Put),
+            new { id = updatedEntity.ID },
+            mapper.Map<TaskOutputDto>(updatedEntity)
+        );
     }
 
     [HttpDelete("{id}")]
-    public ActionResult<Task> Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
-        bool deleteResult = TaskService.Delete(id);
-        if (!deleteResult)
+        var isDeletionSucceed = await service.Delete(id);
+        if (!isDeletionSucceed)
         {
-            logger.LogInformation($"Unable to find task #{id}");
+            logger.LogInformation($"Unable to delete task #{id}");
             return NotFound();
         }
 

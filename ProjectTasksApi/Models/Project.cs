@@ -2,9 +2,9 @@
 
 public class Project
 {
-    public int Id { get; set; }
+    public int ID { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
 
-    public List<Task> Tasks { get; set; } = new List<Task>();
+    public ICollection<Task> Tasks { get; set; }
 }

@@ -1,21 +1,24 @@
 namespace ProjectTasksApi.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using ProjectTasksApi.Models;
-using ProjectTasksApi.Services;
+using ProjectTasksApi.Interfaces;
+using ProjectTasksApi.Models.Dto;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion( "1.0" )]
 public class HealthcheckController : ControllerBase {
 
-    private readonly ILogger<HealthcheckController> _logger;
+    private readonly IHealthcheckService service;
 
-    public HealthcheckController(ILogger<HealthcheckController> logger)
+    public HealthcheckController(IHealthcheckService service)
     {
-        _logger = logger;
+        this.service = service;
     }
 
     [HttpGet]
-    public HealthcheckStatus GetStatus() => HealthCheckService.GetStatus();
+    public async Task<HealthcheckStatusDto> GetStatus()
+    {
+        return await service.GetStatus();
+    }
 }

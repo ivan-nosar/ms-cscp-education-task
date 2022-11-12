@@ -1,12 +1,10 @@
-﻿namespace ProjectTasksApi.Models;
+﻿namespace ProjectTasksApi.Models.Dto;
 
-public class Task
+public class TaskOutputDto
 {
     public int ID { get; set; }
 
     public int ProjectID { get; set; }
-
-    public Project Project { get; set; }
 
     public string Name { get; set; }
 
