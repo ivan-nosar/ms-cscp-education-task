@@ -4,6 +4,9 @@ using ProjectTasksApi.Data;
 using ProjectTasksApi.Interfaces;
 using ProjectTasksApi.Services;
 using ProjectTasksApi.Models.Mapper;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,20 @@ app.Run();
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
+    SecretClientOptions options = new SecretClientOptions()
+    {
+        Retry =
+        {
+            Delay= TimeSpan.FromSeconds(2),
+            MaxDelay = TimeSpan.FromSeconds(16),
+            MaxRetries = 5,
+            Mode = RetryMode.Exponential
+         }
+    };
+    var keyVaultUrl = builder.Configuration["AppKeyVault:Endpoint"];
+    var keyVaultClient = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential(), options);
+    KeyVaultSecret azureSqlConnectionString = keyVaultClient.GetSecret("AzureSqlConnection");
+
     // Add endpoints versioning support
     builder.Services.AddMvcCore();
     builder.Services.AddApiVersioning(options =>
@@ -41,7 +58,7 @@ void ConfigureServices(WebApplicationBuilder builder)
 
     builder.Services.AddDbContext<ProjectTasksContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration["AzureSqlConnection"]);
+        options.UseSqlServer(azureSqlConnectionString.Value);
     });
 
     // Add swagger support
