@@ -12,4 +12,9 @@ project.lock.json
 # Logs
 Logs/
 
+# Visual Studio artifacts
 Properties/
+.config/
+
+# Temp files
+tmp/
