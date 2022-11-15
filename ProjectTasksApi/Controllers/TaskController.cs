@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using ProjectTasksApi.Interfaces;
 using ProjectTasksApi.Models.Dto;
 
@@ -26,9 +27,13 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<TaskOutputDto>> GetAll()
+    public async Task<IEnumerable<TaskOutputDto>> GetAll([FromQuery( Name = "projectId")] string? projectIdentifier)
     {
-        var tasks = await service.GetAll();
+        int? projectId = projectIdentifier.IsNullOrEmpty() ?
+            null :
+            int.Parse(projectIdentifier!);
+
+        var tasks = await service.GetAll(projectId);
         return tasks.Select(project => mapper.Map<TaskOutputDto>(project));
     }
 

@@ -5,7 +5,7 @@ using ProjectTasksApi.Models.Dto;
 
 public interface ITaskService
 {
-    public Task<IEnumerable<Task>> GetAll();
+    public Task<IEnumerable<Task>> GetAll(int? projectId);
 
     public Task<Task?> Get(int id);
 

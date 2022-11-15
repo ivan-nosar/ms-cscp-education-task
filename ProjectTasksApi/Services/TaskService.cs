@@ -21,12 +21,18 @@ public class TaskService : ITaskService
         this.logger = logger;
     }
 
-    public async Task<IEnumerable<Task>> GetAll()
+    public async Task<IEnumerable<Task>> GetAll(int? projectId)
     {
         try
         {
+            if (projectId != null)
+            {
+                return await context.Tasks
+                    .Where(task => task.ProjectID == projectId)
+                    .ToListAsync();
+            }
+
             return await context.Tasks
-                .Where(_ => true)
                 .ToListAsync();
         }
         catch (Exception ex)
