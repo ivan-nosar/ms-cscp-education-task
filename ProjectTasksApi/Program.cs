@@ -20,6 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseCors(builder => builder.AllowAnyOrigin());
 
 app.UseSwagger();
 app.UseSwaggerUI();
