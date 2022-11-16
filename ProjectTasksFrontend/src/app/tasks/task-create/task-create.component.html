@@ -1,0 +1,19 @@
+<h1>Create task</h1>
+
+<form class="form-group" (ngSubmit)="createTask()" #form="ngForm">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Task name</mat-label>
+        <input matInput type="text" id="name" [(ngModel)]="task.name" name="name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput id="description" [(ngModel)]="task.description" name="description" required>
+        </textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.form.valid">
+        Create
+    </button>
+</form>

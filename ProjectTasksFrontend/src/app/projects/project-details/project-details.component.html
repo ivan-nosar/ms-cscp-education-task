@@ -1,0 +1,10 @@
+<h1>Project details</h1>
+
+<form class="form-group" *ngIf="project" #form="ngForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Project name</mat-label>
+        <input matInput type="text" id="name" [value]="project.name" name="name" [readonly]="true">
+    </mat-form-field>
+</form>
+
+<app-tasks-list *ngIf="isDataLoaded()" [projectId]="project!.id" [tasks]="project!.tasks"></app-tasks-list>

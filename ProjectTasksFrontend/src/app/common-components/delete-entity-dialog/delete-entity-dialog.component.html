@@ -1,0 +1,14 @@
+<div>
+    <h1 mat-dialog-title>Confirm deletion of {{data.entityType}}</h1>
+    <div mat-dialog-content>
+        Are you sure you want to delete {{data.entityName}} {{data.entityType}}?
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" mat-dialog-close cdkFocusInitial (click)="reject()">
+            No
+        </button>
+        <button mat-raised-button mat-dialog-close (click)="approve()">
+            Yes
+        </button>
+    </div>
+</div>

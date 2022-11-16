@@ -1,0 +1,15 @@
+<h1>Task details</h1>
+
+<form class="form-group" *ngIf="task" #form="ngForm">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Task name</mat-label>
+        <input matInput type="text" id="name" [(ngModel)]="task.name" name="name" [readonly]="true">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput id="description" [(ngModel)]="task.description" name="description" [readonly]="true">
+        </textarea>
+    </mat-form-field>
+</form>

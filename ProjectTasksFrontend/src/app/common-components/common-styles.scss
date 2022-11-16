@@ -1,0 +1,25 @@
+@mixin shared-styles {
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 50vw;
+    }
+
+    .adjusted-right {
+        float: right
+    }
+
+    .list {
+        width: 50vw;
+    }
+
+    .page-content {
+        display: flex;
+        margin: 82px auto 32px;
+        padding: 0 16px;
+        flex-direction: column;
+        width: 50vw;
+        align-items: center;
+    }
+}

@@ -1,0 +1,29 @@
+<h1>
+    Task's list
+
+    <button mat-mini-fab aria-label="Add new task" class="adjusted-right"
+        [routerLink]="['/projects', projectId, 'tasks', 'new']">
+        <mat-icon>add</mat-icon>
+    </button>
+</h1>
+
+<mat-action-list class="list" *ngIf="isDataLoaded()">
+    <mat-list-item *ngFor="let task of tasks">
+        <div mat-line [routerLink]="['/projects', projectId, 'tasks', 'view', task.id]">
+            {{task.name}}
+        </div>
+
+        <button mat-icon-button [attr.aria-label]="'Edit task ' + task.name"
+            [routerLink]="['/projects', projectId, 'tasks', 'edit', task.id]">
+            <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button [attr.aria-label]="'Delete task ' + task.name" (click)="deleteTask(task, $event)">
+            <mat-icon>delete</mat-icon>
+        </button>
+
+        <mat-divider></mat-divider>
+
+    </mat-list-item>
+
+</mat-action-list>

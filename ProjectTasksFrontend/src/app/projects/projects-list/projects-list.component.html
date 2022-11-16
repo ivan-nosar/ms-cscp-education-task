@@ -1,0 +1,28 @@
+<h1>
+    Project's list
+
+    <button mat-mini-fab aria-label="Add new project" class="adjusted-right" [routerLink]="'new'">
+        <mat-icon>add</mat-icon>
+    </button>
+</h1>
+
+<mat-action-list class="list">
+    <mat-list-item *ngFor="let project of projects">
+        <div mat-line [routerLink]="['view', project.id]">
+            {{project.name}}
+        </div>
+
+        <button mat-icon-button [attr.aria-label]="'Edit project ' + project.name" [routerLink]="['edit', project.id]">
+            <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button [attr.aria-label]="'Delete project ' + project.name"
+            (click)="deleteProject(project, $event)">
+            <mat-icon>delete</mat-icon>
+        </button>
+
+        <mat-divider></mat-divider>
+
+    </mat-list-item>
+
+</mat-action-list>
