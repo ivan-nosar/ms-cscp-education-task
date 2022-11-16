@@ -20,12 +20,16 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.UseCors(builder => builder.AllowAnyOrigin());
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors(builder => {
+    builder.AllowAnyMethod();
+    builder.AllowAnyOrigin();
+    builder.AllowAnyHeader();
+});
 
 app.UseAuthorization();
 
