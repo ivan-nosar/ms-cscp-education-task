@@ -6,8 +6,6 @@ import { Project, ProjectDto } from "./project.types";
 @Injectable()
 export class ProjectsService {
 
-    // TODO: Use shared styles (on module level???)
-
     private apiUrl: string;
 
     constructor(private httpClient: HttpClient) {
