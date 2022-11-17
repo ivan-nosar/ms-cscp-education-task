@@ -21,7 +21,7 @@ public class HealthCheckService : IHealthcheckService
 
     public async Task<HealthcheckStatusDto> GetStatus()
     {
-        bool status = true;
+        bool serviceStatus = true;
         bool dbConnectionStatus = false;
         try
         {
@@ -34,7 +34,7 @@ public class HealthCheckService : IHealthcheckService
 
         return new HealthcheckStatusDto
         {
-            status = status,
+            serviceStatus = serviceStatus,
             dbConnectionStatus = dbConnectionStatus
         };
     }
