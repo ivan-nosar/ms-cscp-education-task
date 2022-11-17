@@ -3,12 +3,15 @@ on:
   push:
     branches:
     - main
+    paths:
+      - ProjectTaskApi/**
+      - .github/workflows/ProjectTasksApiLinuxAppService.yml
 env:
   AZURE_WEBAPP_NAME: ProjectTasksApiLinuxAppService
   AZURE_WEBAPP_PACKAGE_PATH: ./publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: .
+  WORKING_DIRECTORY: ./ProjectTasksApi
 jobs:
   build:
     runs-on: ubuntu-latest
