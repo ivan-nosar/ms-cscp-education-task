@@ -1,13 +1,19 @@
-name: Azure Static Web Apps CI/CD
+name: ProjectTasks Cosmos API Frontend
 
 on:
   push:
     branches:
       - main
+    paths:
+      - ProjectTasksFrontend/**
+      - .github/workflows/azure-static-web-apps-orange-moss-00a009110.yml
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+    paths:
+      - ProjectTasksFrontend/**
+      - .github/workflows/azure-static-web-apps-orange-moss-00a009110.yml
 
 jobs:
   build_and_deploy_job:
