@@ -6,7 +6,7 @@ using ProjectTasksCosmosApi.Models.Dto;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
-[ApiVersion( "1.0" )]
+[ApiVersion("1.0")]
 public class HealthcheckController : ControllerBase {
 
     private readonly IHealthcheckService service;

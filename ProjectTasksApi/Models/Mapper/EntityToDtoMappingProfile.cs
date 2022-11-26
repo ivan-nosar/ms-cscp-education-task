@@ -5,9 +5,9 @@ using ProjectTasksApi.Models.Dto;
 
 public class EntityToDtoMappingProfile : Profile
 {
-	public EntityToDtoMappingProfile()
-	{
-		CreateMap<Project, ProjectOutputDto>();
-		CreateMap<Task, TaskOutputDto>();
-	}
+    public EntityToDtoMappingProfile()
+    {
+        CreateMap<Project, ProjectOutputDto>();
+        CreateMap<Task, TaskOutputDto>();
+    }
 }
