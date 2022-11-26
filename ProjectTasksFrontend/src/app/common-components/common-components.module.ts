@@ -6,11 +6,17 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { DeleteEntityDialogComponent } from './delete-entity-dialog/delete-entity-dialog.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { UnlessReadonlyGuardService } from "./services/unless-readonly-guard.service";
+import { UnlessReadonlyDirective } from './directives/unless-readonly.directive';
 
 @NgModule({
     declarations: [
         DeleteEntityDialogComponent,
         NotFoundPageComponent,
+        UnlessReadonlyDirective,
+    ],
+    providers: [
+        UnlessReadonlyGuardService,
     ],
     imports: [
         CommonModule,
@@ -21,6 +27,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     exports: [
         DeleteEntityDialogComponent,
         NotFoundPageComponent,
+        UnlessReadonlyDirective,
     ]
 })
 export class CommonComponentsModule { }

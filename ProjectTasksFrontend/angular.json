@@ -39,8 +39,8 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
+                                    "maximumWarning": "1mb",
+                                    "maximumError": "2mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
@@ -56,6 +56,27 @@
                             ],
                             "outputHashing": "all"
                         },
+                        "production-cosmos": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "1mb",
+                                    "maximumError": "2mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.cosmos.prod.ts"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
                         "development": {
                             "buildOptimizer": false,
                             "optimization": false,
@@ -63,6 +84,20 @@
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true
+                        },
+                        "development-cosmos": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true,
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.cosmos.ts"
+                                }
+                            ],
                         }
                     },
                     "defaultConfiguration": "production"
@@ -73,8 +108,14 @@
                         "production": {
                             "browserTarget": "ProjectTasksFrontend:build:production"
                         },
+                        "production-cosmos": {
+                            "browserTarget": "ProjectTasksFrontend:build:production-cosmos"
+                        },
                         "development": {
                             "browserTarget": "ProjectTasksFrontend:build:development"
+                        },
+                        "development-cosmos": {
+                            "browserTarget": "ProjectTasksFrontend:build:development-cosmos"
                         }
                     },
                     "defaultConfiguration": "development"

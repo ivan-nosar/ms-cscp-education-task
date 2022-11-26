@@ -1,7 +1,11 @@
 <h1>
     Task's list
 
-    <button mat-mini-fab aria-label="Add new task" class="adjusted-right"
+    <button
+        *appUnlessReadonly="true"
+        mat-mini-fab
+        aria-label="Add new task"
+        class="adjusted-right"
         [routerLink]="['/projects', projectId, 'tasks', 'new']">
         <mat-icon>add</mat-icon>
     </button>
@@ -13,12 +17,19 @@
             {{task.name}}
         </div>
 
-        <button mat-icon-button [attr.aria-label]="'Edit task ' + task.name"
+        <button
+            *appUnlessReadonly="true"
+            mat-icon-button
+            [attr.aria-label]="'Edit task ' + task.name"
             [routerLink]="['/projects', projectId, 'tasks', 'edit', task.id]">
             <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button [attr.aria-label]="'Delete task ' + task.name" (click)="deleteTask(task, $event)">
+        <button
+            *appUnlessReadonly="true"
+            mat-icon-button
+            [attr.aria-label]="'Delete task ' + task.name"
+            (click)="deleteTask(task, $event)">
             <mat-icon>delete</mat-icon>
         </button>
 

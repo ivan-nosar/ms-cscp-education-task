@@ -11,17 +11,22 @@ import { TaskEditComponent } from './tasks/task-edit/task-edit.component';
 import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { CommonComponentsModule } from './common-components/common-components.module';
+import { UnlessReadonlyGuardService } from "./common-components/services/unless-readonly-guard.service";
 
 const routes: Routes = [
     {
         path: 'projects',
         component: ProjectComponent,
         children: [
-            { path: 'new', component: ProjectCreateComponent },
-            { path: 'edit/:projectId', component: ProjectEditComponent },
+            { path: 'new', component: ProjectCreateComponent, canMatch: [UnlessReadonlyGuardService] },
+            { path: 'edit/:projectId', component: ProjectEditComponent, canMatch: [UnlessReadonlyGuardService] },
             { path: 'view/:projectId', component: ProjectDetailsComponent },
-            { path: ':projectId/tasks/new', component: TaskCreateComponent },
-            { path: ':projectId/tasks/edit/:taskId', component: TaskEditComponent },
+            { path: ':projectId/tasks/new', component: TaskCreateComponent, canMatch: [UnlessReadonlyGuardService] },
+            {
+                path: ':projectId/tasks/edit/:taskId',
+                component: TaskEditComponent,
+                canMatch: [UnlessReadonlyGuardService]
+            },
             { path: ':projectId/tasks/view/:taskId', component: TaskDetailsComponent },
             { path: '', component: ProjectsListComponent },
         ]
