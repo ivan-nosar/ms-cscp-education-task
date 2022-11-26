@@ -4,7 +4,7 @@ on:
     branches:
     - main
     paths:
-      - ProjectTaskApi/**
+      - ProjectTasksApi/**
       - .github/workflows/ProjectTasksApiLinuxAppService.yml
 env:
   AZURE_WEBAPP_NAME: ProjectTasksApiLinuxAppService
