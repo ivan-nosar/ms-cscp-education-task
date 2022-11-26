@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - ProjectTaskFrontend/**
+      - ProjectTasksFrontend/**
       - .github/workflows/azure-static-web-apps-brave-ground-025ca3103.yml
   pull_request:
     types: [opened, synchronize, reopened, closed]
