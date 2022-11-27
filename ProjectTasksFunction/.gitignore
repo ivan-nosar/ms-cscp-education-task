@@ -268,7 +268,6 @@ __pycache__/
 Logs/
 
 # Visual Studio artifacts
-Properties/
 .config/
 
 # Temp files
