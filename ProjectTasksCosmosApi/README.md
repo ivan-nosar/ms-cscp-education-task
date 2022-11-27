@@ -1,4 +1,4 @@
-# ProjectTasksApi
+# ProjectTasksCosmosApi
 
 Service is available at [projecttaskscosmosapilinuxappservice.azurewebsites.net](https://projecttaskscosmosapilinuxappservice.azurewebsites.net)
 
