@@ -2,32 +2,37 @@
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using ProjectTasksCosmosApi.Interfaces;
 using ProjectTasksCosmosApi.Models.Dto;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class ProjectController : ControllerBase
+public class ProjectController : AuthorizedControllerBase
 {
     private readonly IProjectService service;
     private readonly ILogger<ProjectController> logger;
     private readonly IMapper mapper;
 
     public ProjectController(
+        IConfiguration configuration,
         IProjectService service,
         ILogger<ProjectController> logger,
         IMapper mapper
-    )
+    ) : base(configuration)
     {
         this.service = service;
         this.logger = logger;
         this.mapper = mapper;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IEnumerable<ProjectOutputDto>> GetAll([FromQuery] string? withTasks)
     {
+        VerifyUserPermissions();
+
         var shouldPopulateTasks = StringToBool(withTasks);
 
         var projects = await service.GetAll(shouldPopulateTasks);
@@ -40,9 +45,12 @@ public class ProjectController : ControllerBase
         );
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectOutputDto>> Get(int id, [FromQuery] string? withTasks)
     {
+        VerifyUserPermissions();
+
         var shouldPopulateTasks = StringToBool(withTasks);
         var project = await service.Get(id, shouldPopulateTasks);
 

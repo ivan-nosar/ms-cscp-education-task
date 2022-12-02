@@ -7,6 +7,9 @@ using ProjectTasksCosmosApi.Models.Mapper;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +34,7 @@ app.UseCors(builder => {
     builder.AllowAnyHeader();
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -74,7 +78,33 @@ void ConfigureServices(WebApplicationBuilder builder)
 
     // Add swagger support
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                new string[]{}
+            }
+        });
+    });
 
     // Add injectable services
     builder.Services.AddScoped<IHealthcheckService, HealthCheckService>();
@@ -83,6 +113,10 @@ void ConfigureServices(WebApplicationBuilder builder)
 
     // Add mapping configurations
     builder.Services.AddAutoMapper(typeof(EntityToDtoMappingProfile));
+
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
     builder.Services.AddControllers()
         .AddNewtonsoftJson();
