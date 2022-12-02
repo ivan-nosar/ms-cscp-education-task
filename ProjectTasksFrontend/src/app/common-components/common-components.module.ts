@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { DeleteEntityDialogComponent } from './delete-entity-dialog/delete-entity-dialog.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { UnlessReadonlyGuardService } from "./services/unless-readonly-guard.service";
+import { UnlessReadonlyGuard } from "./guards/unless-readonly.guard";
 import { UnlessReadonlyDirective } from './directives/unless-readonly.directive';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { UnlessReadonlyDirective } from './directives/unless-readonly.directive'
         UnlessReadonlyDirective,
     ],
     providers: [
-        UnlessReadonlyGuardService,
+        UnlessReadonlyGuard,
     ],
     imports: [
         CommonModule,

@@ -18,6 +18,7 @@ import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectsService } from "./projects.service";
 import { TasksModule } from "../tasks/tasks.module";
 import { CommonComponentsModule } from "../common-components/common-components.module";
+import { AuthModule } from "../auth/auth.module";
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { CommonComponentsModule } from "../common-components/common-components.m
         MatDialogModule,
 
         CommonComponentsModule,
+        AuthModule,
         TasksModule,
     ],
     exports: [

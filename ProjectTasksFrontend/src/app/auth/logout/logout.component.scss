@@ -1,0 +1,9 @@
+@import "../../common-components/common-styles.scss";
+
+@include shared-styles;
+
+.logout-toolbar {
+    @extend .view-area;
+
+    display: flex;
+}

@@ -6,20 +6,22 @@ import { Project, ProjectDto } from "./project.types";
 @Injectable()
 export class ProjectsService {
 
-    private apiUrl: string;
+    private static _apiUrl = new URL(`api/v1/project`, environment.apiUrl).toString();;
 
-    constructor(private httpClient: HttpClient) {
-        this.apiUrl = new URL(`api/v1/project`, environment.apiUrl).toString();
+    constructor(private httpClient: HttpClient) { }
+
+    static get apiUrl() {
+        return ProjectsService._apiUrl;
     }
 
     getAll(withTasks: boolean = false) {
-        return this.httpClient.get<Project[]>(this.apiUrl, {
+        return this.httpClient.get<Project[]>(ProjectsService._apiUrl, {
             params: { withTasks: withTasks.toString() }
         });
     }
 
     getById(id: number, withTasks: boolean = false) {
-        const url = `${this.apiUrl}/${id}`;
+        const url = `${ProjectsService._apiUrl}/${id}`;
 
         return this.httpClient.get<Project>(url, {
             params: { withTasks: withTasks.toString() }
@@ -27,17 +29,17 @@ export class ProjectsService {
     }
 
     create(project: ProjectDto) {
-        return this.httpClient.post<Project>(this.apiUrl, project);
+        return this.httpClient.post<Project>(ProjectsService._apiUrl, project);
     }
 
     update(id: number, project: ProjectDto) {
-        const url = `${this.apiUrl}/${id}`;
+        const url = `${ProjectsService._apiUrl}/${id}`;
 
         return this.httpClient.put<Project>(url, project);
     }
 
     delete(id: number) {
-        const url = `${this.apiUrl}/${id}`;
+        const url = `${ProjectsService._apiUrl}/${id}`;
 
         return this.httpClient.delete(url);
     }

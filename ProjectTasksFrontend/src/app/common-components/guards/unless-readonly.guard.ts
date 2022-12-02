@@ -3,7 +3,7 @@ import { CanMatch } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class UnlessReadonlyGuardService implements CanMatch {
+export class UnlessReadonlyGuard implements CanMatch {
 
     private isReadonly: boolean;
 

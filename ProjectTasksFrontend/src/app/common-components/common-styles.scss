@@ -1,25 +1,35 @@
 @mixin shared-styles {
 
+    .view-area {
+        width: 50vw;
+    }
+
     .form-group {
+        @extend .view-area;
+
         display: flex;
         flex-direction: column;
-        width: 50vw;
     }
 
     .adjusted-right {
         float: right
     }
 
+    .adjusted-left {
+        float: left
+    }
+
     .list {
-        width: 50vw;
+        @extend .view-area;
     }
 
     .page-content {
+        @extend .view-area;
+
         display: flex;
         margin: 82px auto 32px;
         padding: 0 16px;
         flex-direction: column;
-        width: 50vw;
         align-items: center;
     }
 }
