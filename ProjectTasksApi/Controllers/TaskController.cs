@@ -1,6 +1,7 @@
-﻿namespace ProjectTasksApi.Controllers; 
+﻿namespace ProjectTasksApi.Controllers;
 
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ProjectTasksApi.Interfaces;
@@ -9,26 +10,30 @@ using ProjectTasksApi.Models.Dto;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class TaskController : ControllerBase
+public class TaskController : AuthorizedControllerBase
 {
     private readonly ITaskService service;
     private readonly ILogger<TaskController> logger;
     private readonly IMapper mapper;
 
     public TaskController(
+        IConfiguration configuration,
         ITaskService service,
         ILogger<TaskController> logger,
         IMapper mapper
-    )
+    ) : base(configuration)
     {
         this.service = service;
         this.logger = logger;
         this.mapper = mapper;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IEnumerable<TaskOutputDto>> GetAll([FromQuery( Name = "projectId")] string? projectIdentifier)
     {
+        VerifyUserPermissions();
+
         int? projectId = projectIdentifier.IsNullOrEmpty() ?
             null :
             int.Parse(projectIdentifier!);
@@ -37,9 +42,12 @@ public class TaskController : ControllerBase
         return tasks.Select(project => mapper.Map<TaskOutputDto>(project));
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<TaskOutputDto>> Get(int id)
     {
+        VerifyUserPermissions();
+
         var task = await service.Get(id);
 
         if (task == null)
@@ -51,9 +59,12 @@ public class TaskController : ControllerBase
         return mapper.Map<TaskOutputDto>(task);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<TaskOutputDto>> Post([FromBody] TaskInputDto task)
     {
+        VerifyUserPermissions();
+
         if (!ModelState.IsValid)
         {
             logger.LogInformation($"Task model validation failed");
@@ -74,9 +85,12 @@ public class TaskController : ControllerBase
         );
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<ActionResult<TaskOutputDto>> Put(int id, [FromBody] TaskInputDto task)
     {
+        VerifyUserPermissions();
+
         if (!ModelState.IsValid)
         {
             logger.LogInformation($"Task model validation failed");
@@ -97,9 +111,12 @@ public class TaskController : ControllerBase
         );
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
+        VerifyUserPermissions();
+
         var isDeletionSucceed = await service.Delete(id);
         if (!isDeletionSucceed)
         {
